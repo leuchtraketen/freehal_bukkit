@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="main" name="TestPlugin">
+	<property name="src.dir" value="src" />
+	<property name="build.dir" value="bin" />
+	<property name="dist.dir" value="dist" />
+	<property name="lib.dir" value="libs" />
+
+	<property name="dist.jar" value="${dist.dir}/freehal-dist-bukkit.jar" />
+	<property name="plugin.jar" value="${dist.dir}/libfreehal-bukkit.jar" />
+
+
+	<target name="init">
+		<mkdir dir="${build.dir}" />
+		<copy includeemptydirs="false" todir="${build.dir}">
+			<fileset dir="${src.dir}">
+				<exclude name="**/*.java" />
+				<exclude name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+	<target depends="clean" name="cleanall" />
+	<target depends="dist-jar" name="main" />
+	<target depends="init" name="build">
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${build.dir}"
+			source="${source}" target="${target}">
+			<src path="${src.dir}" />
+			<classpath refid="TestPlugin.classpath" />
+		</javac>
+	</target>
+	<target name="jar" depends="build">
+		<jar destfile="${plugin.jar}" basedir="${build.dir}" includes="**/*" />
+	</target>
+	<target name="dist-jar" depends="jar">
+		<jar destfile="${dist.jar}">
+			<zipgroupfileset dir="${lib.dir}">
+				<include name="**/*.jar" />
+				<exclude name="*sources*" />
+				<exclude name="*javadoc*" />
+			</zipgroupfileset>
+			<zipgroupfileset dir="${basedir}" includes="${plugin.jar}" />
+			<manifest>
+				<attribute name="Main-Class" value="${common.mainclass}" />
+			</manifest>
+		</jar>
+	</target>
+
+</project>

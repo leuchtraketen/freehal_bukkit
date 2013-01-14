@@ -1,0 +1,14 @@
+name: TestPlugin
+main: net.freehal.ui.bukkit.Main
+version: 0.1
+website: http://www.tobias-schulz.eu
+author: Tobias Schulz
+description: >
+             Test Plugin
+commands:
+  chat:
+    description: Chat with NPC
+    usage: |
+           /<command>
+           Example: /<command>
+           
